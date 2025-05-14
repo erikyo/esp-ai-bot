@@ -22,7 +22,7 @@ esp_err_t create_chatgpt_request(const char *content)
     char headers[256];
     snprintf(headers, sizeof(headers), "Bearer %s", OPENAI_API_KEY);
 
-    // Resetta il buffer di risposta
+    // Reset the response buffer
     memset(response_buffer, 0, MAX_HTTP_RECV_BUFFER);
     response_len = 0;
 

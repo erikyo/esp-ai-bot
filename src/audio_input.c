@@ -49,7 +49,7 @@ void i2s_init(void)
     i2s_set_pin(I2S_PORT_MIC, &pin_config);
     i2s_zero_dma_buffer(I2S_PORT_MIC);
 
-    ESP_LOGI("I2S", "Microfono INMP441 inizializzato.");
+    ESP_LOGI("I2S", "INMP441 initialized.");
 }
 
 int record_audio(char *buffer, int max_len)
@@ -57,7 +57,7 @@ int record_audio(char *buffer, int max_len)
     size_t bytes_read = 0;
     int total_read = 0;
 
-    ESP_LOGI("AUDIO", "🎙️ Inizio registrazione...");
+    ESP_LOGI("AUDIO", "🎙️ Start recording...");
 
     while (total_read < max_len) {
         i2s_read(I2S_PORT_MIC, buffer + total_read, 512, &bytes_read, portMAX_DELAY);
@@ -68,6 +68,6 @@ int record_audio(char *buffer, int max_len)
         }
     }
 
-    ESP_LOGI("AUDIO", "✅ Registrazione completata (%d bytes)", total_read);
+    ESP_LOGI("AUDIO", "✅ Recording completed (%d bytes)", total_read);
     return total_read;
 }

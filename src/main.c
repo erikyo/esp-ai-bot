@@ -24,44 +24,40 @@ char message_content[1024];
 
 void app_main(void)
 {
-    // Inizializzazione periferiche
+    // Initialize audio input and output
     i2s_init();              // INMP441
     audio_output_init();     // MAX98357A
-    wifi_connect();          // Assicurati che sia connesso al WiFi
+    wifi_connect();          // connect to wifi
 
     while (1) {
-        ESP_LOGI(TAG, "🟢 Inizio ciclo di interazione");
+        ESP_LOGI(TAG, "🟢 Recording");
 
-        // 1. Acquisisci audio (registrazione da microfono)
+        // 1. get the audio 
         int audio_len = record_audio(record_audio_buffer, MAX_FILE_SIZE);
         if (audio_len <= 0) {
-            ESP_LOGE(TAG, "❌ Errore nella registrazione audio");
+            ESP_LOGE(TAG, "❌ Error recording audio");
             continue;
         }
 
-        // 2. Invia audio a Whisper per ottenere testo
+        // 2. send the audio to Whisper
         if (create_whisper_request_from_record((uint8_t *)record_audio_buffer, audio_len) != ESP_OK) {
-            ESP_LOGE(TAG, "❌ Errore nella trascrizione Whisper");
+            ESP_LOGE(TAG, "❌ Error sending audio to Whisper");
             continue;
         }
 
-        // A questo punto `message_content` contiene il testo trascritto
-
-        // 3. Invia il testo a ChatGPT
+        // 3. send the message to ChatGPT
         if (create_chatgpt_request(message_content) != ESP_OK) {
-            ESP_LOGE(TAG, "❌ Errore nella richiesta ChatGPT");
+            ESP_LOGE(TAG, "❌ Error sending message to ChatGPT");
             continue;
         }
 
-        // Ora `message_content` contiene la risposta di ChatGPT
-
-        // 4. Converti il testo in voce
+        // 4. text to speech
         if (text_to_speech_request(message_content, AUDIO_CODECS_MP3) != ESP_OK) {
-            ESP_LOGE(TAG, "❌ Errore nella sintesi vocale");
+            ESP_LOGE(TAG, "❌ Error converting text to speech");
             continue;
         }
 
-        ESP_LOGI(TAG, "✅ Ciclo completato, attesa prima di nuovo ciclo...");
-        vTaskDelay(pdMS_TO_TICKS(5000)); // Attendi 5 secondi prima della prossima interazione
+        ESP_LOGI(TAG, "✅ Loop completed wait 5 seconds...");
+        vTaskDelay(pdMS_TO_TICKS(5000)); 
     }
 }

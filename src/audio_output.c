@@ -42,12 +42,12 @@ void audio_output_init(void)
     ESP_ERROR_CHECK(i2s_channel_init_std_mode(I2S_PORT_SPKR, &std_cfg));
     ESP_ERROR_CHECK(i2s_channel_enable(I2S_PORT_SPKR));
 
-    ESP_LOGI("I2S", "🔊 MAX98357A inizializzato.");
+    ESP_LOGI("I2S", "🔊 MAX98357A initialized.");
 }
 
 void audio_player_play(const char *audio_data, int len)
 {
-    ESP_LOGI("PLAYER", "▶️ Riproduzione audio (%d bytes)", len);
+    ESP_LOGI("PLAYER", "▶️ playing audio (%d bytes)", len);
 
     size_t bytes_written = 0;
     int offset = 0;
@@ -58,5 +58,5 @@ void audio_player_play(const char *audio_data, int len)
         offset += bytes_written;
     }
 
-    ESP_LOGI("PLAYER", "✅ Riproduzione completata.");
+    ESP_LOGI("PLAYER", "✅ Audio played successfully.");
 }

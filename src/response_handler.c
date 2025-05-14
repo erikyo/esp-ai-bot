@@ -11,12 +11,11 @@
 static char response_buffer[MAX_HTTP_RECV_BUFFER];
 static int response_len = 0;
 
-// Modifica: cambiare il tipo di ritorno da char* a esp_err_t
 esp_err_t response_handler(esp_http_client_event_t *evt)
 {
     switch(evt->event_id) {
         case HTTP_EVENT_ON_DATA:
-            // Gestione dei dati ricevuti
+            // handle received data
             if (response_len + evt->data_len < MAX_HTTP_RECV_BUFFER) {
                 memcpy(response_buffer + response_len, evt->data, evt->data_len);
                 response_len += evt->data_len;
@@ -34,7 +33,7 @@ esp_err_t response_handler(esp_http_client_event_t *evt)
         default:
             break;
     }
-    return ESP_OK; // Ritorna ESP_OK per indicare successo
+    return ESP_OK;
 }
 
 void url_encode(const char *src, char *dest)
@@ -60,7 +59,7 @@ esp_err_t http_event_handler(esp_http_client_event_t *evt)
 {
     switch (evt->event_id) {
         case HTTP_EVENT_ON_DATA:
-            // gestisci i dati ricevuti, es. scrivili su un buffer
+            // TODO: write data to file or buffer
             break;
         default:
             break;
