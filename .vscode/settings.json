@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "esp_log.h": "c",
+        "i2s.h": "c",
+        "i2s_std.h": "c",
+        "stdio.h": "c",
+        "esp_wifi.h": "c",
+        "gpio.h": "c"
+    }
+}

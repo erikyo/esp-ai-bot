@@ -1,0 +1,4 @@
+typedef enum {
+    AUDIO_CODECS_MP3,
+    AUDIO_CODECS_WAV
+} AUDIO_CODECS_FORMAT;
